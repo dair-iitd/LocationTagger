@@ -1,3 +1,11 @@
+data/inputs/
+data/features/
+data/models/
+data/predictions
+data/utils/bert
+data/utils/features/Gensim.model
+java
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

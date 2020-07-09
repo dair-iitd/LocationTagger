@@ -1,0 +1,1 @@
+python -m src.main --config_file data/configs/config.jsonnet --serialization_dir data/models --devices 0 --test --data_file_path data/features/test_annotations.features.txt --predictions_file_path data/predictions/test_annotations.predictions.txt --pretrained_model_path data/models/best.weights
