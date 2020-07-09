@@ -10,9 +10,9 @@ import functools
 import itertools
 from rake_nltk import Rake
 from collections import defaultdict
-from gensim.models import Word2Vec
+# from gensim.models import Word2Vec
 from nltk.parse import CoreNLPParser
-from nltk.parse.corenlp import CoreNLPDependencyParser
+# from nltk.parse.corenlp import CoreNLPDependencyParser
 
 from utils import common
 
@@ -196,54 +196,54 @@ class FeatureProcessor:
 
                 self.sentences[i] = sentence
 
-        def processSentences2():
-            def checkSimilar(word1, word2):
-                try:
-                    if(word1 == word2):
-                        return 1
-                    for word, score in self.gensim_model.wv.similar_by_vector(word1):
-                        if(word2 == word):
-                        	return 1
-                    return 0
-                except:
-                	return 0
-
-            for i, sentence in enumerate(self.sentences):
-                string = " ".join([features[0] for features in sentence])
-                search_for_to = 0
-                in_location_indicators, going_location_indicators = {}, {}
-                in_word_in_consideration, going_word_in_consideration = "", ""
-
-                dependency_parse = self.options.dep_parser.raw_parse(string).__next__().triples()
-                for head, tag, body in dependency_parse:
-                    if(checkSimilar(head[0], "travelling") and body[1] == "TO"):
-                        search_for_to = 1
-                    if(search_for_to and (head[1] == "TO") and (tag in ["pobj", "dep"])):
-                    	search_for_to = 0
-                    	if("NN" in body[1]):
-                    		going_location_indicators[body[0]] = body[1]
-                    		going_word_in_consideration = body[0]
-                    elif(going_word_in_consideration and (head[0] == going_word_in_consideration)):
-                    	if(tag in ["nn", "dobj", "dep"]):
-                    		going_location_indicators[body[0]] = body[1]
-                    if((checkSimilar(head[0], "in") or checkSimilar(head[0], "near")) and (tag in ["pobj", "dep"])):
-                    	if("NN" in body[1]):
-                    		in_location_indicators[body[0]] = body[1]
-                    		in_word_in_consideration = body[0]
-                    elif(in_word_in_consideration and (head[0] == in_word_in_consideration)):
-                    	if(tag in ["nn", "dobj", "dep"]):
-                    		in_location_indicators[body[0]] = body[1]
-
-                for j, features in enumerate(sentence):
-                    if((features[0] in in_location_indicators) and (" DATE " not in features)):
-                    	features.append("IN_LOC_INDICATOR")
-                    	features.append(in_location_indicators[features[0]])
-                    if((features[0] in going_location_indicators) and (" DATE " not in features)):
-                    	features.append("GOING_LOC_INDICATOR")
-                    	features.append(going_location_indicators[features[0]])
-                    sentence[j] = features
-
-                self.sentences[i] = sentence
+        # def processSentences2():
+        #     def checkSimilar(word1, word2):
+        #         try:
+        #             if(word1 == word2):
+        #                 return 1
+        #             for word, score in self.gensim_model.wv.similar_by_vector(word1):
+        #                 if(word2 == word):
+        #                 	return 1
+        #             return 0
+        #         except:
+        #         	return 0
+        #
+        #     for i, sentence in enumerate(self.sentences):
+        #         string = " ".join([features[0] for features in sentence])
+        #         search_for_to = 0
+        #         in_location_indicators, going_location_indicators = {}, {}
+        #         in_word_in_consideration, going_word_in_consideration = "", ""
+        #
+        #         dependency_parse = self.options.dep_parser.raw_parse(string).__next__().triples()
+        #         for head, tag, body in dependency_parse:
+        #             if(checkSimilar(head[0], "travelling") and body[1] == "TO"):
+        #                 search_for_to = 1
+        #             if(search_for_to and (head[1] == "TO") and (tag in ["pobj", "dep"])):
+        #             	search_for_to = 0
+        #             	if("NN" in body[1]):
+        #             		going_location_indicators[body[0]] = body[1]
+        #             		going_word_in_consideration = body[0]
+        #             elif(going_word_in_consideration and (head[0] == going_word_in_consideration)):
+        #             	if(tag in ["nn", "dobj", "dep"]):
+        #             		going_location_indicators[body[0]] = body[1]
+        #             if((checkSimilar(head[0], "in") or checkSimilar(head[0], "near")) and (tag in ["pobj", "dep"])):
+        #             	if("NN" in body[1]):
+        #             		in_location_indicators[body[0]] = body[1]
+        #             		in_word_in_consideration = body[0]
+        #             elif(in_word_in_consideration and (head[0] == in_word_in_consideration)):
+        #             	if(tag in ["nn", "dobj", "dep"]):
+        #             		in_location_indicators[body[0]] = body[1]
+        #
+        #         for j, features in enumerate(sentence):
+        #             if((features[0] in in_location_indicators) and (" DATE " not in features)):
+        #             	features.append("IN_LOC_INDICATOR")
+        #             	features.append(in_location_indicators[features[0]])
+        #             if((features[0] in going_location_indicators) and (" DATE " not in features)):
+        #             	features.append("GOING_LOC_INDICATOR")
+        #             	features.append(going_location_indicators[features[0]])
+        #             sentence[j] = features
+        #
+        #         self.sentences[i] = sentence
 
         sentenceSplitter()
         processSentences1()
@@ -261,24 +261,24 @@ def getFeatures(sentences, labels = None):
     defaults["descriptive_phrases_path"] = project_root_path / "data/features/DescriptivePhrases.txt"
     defaults["word_vectors_path"] = project_root_path / "data/features/WordVectors.txt"
     defaults["stop_words_path"] = project_root_path / "data/features/StopWords.txt"
-    defaults["gensim_model_path"] = project_root_path / "data/features/Gensim.model"
+    # defaults["gensim_model_path"] = project_root_path / "data/features/Gensim.model"
     defaults["allowed_features_file_path"] = project_root_path / "data/features/features.txt"
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--descriptive_phrases_path", type = str, default = str(defaults["descriptive_phrases_path"]))
     parser.add_argument("--word_vectors_path", type = str, default = str(defaults["word_vectors_path"]))
     parser.add_argument("--stop_words_path", type = str, default = str(defaults["stop_words_path"]))
-    parser.add_argument("--gensim_model_path", type = str, default = str(defaults["gensim_model_path"]))
+    # parser.add_argument("--gensim_model_path", type = str, default = str(defaults["gensim_model_path"]))
     parser.add_argument("--allowed_features_file_path", type = str, default = str(defaults["allowed_features_file_path"]))
     options = parser.parse_args("")
 
     options.rake = Rake()
     options.nlp = spacy.load("en_core_web_sm")
-    options.gensim = Word2Vec.load(options.gensim_model_path)
+    # options.gensim = Word2Vec.load(options.gensim_model_path)
     options.tok_parser = CoreNLPParser(url = "http://localhost:9000")
     options.pos_tagger = CoreNLPParser(url = "http://localhost:9000", tagtype = "pos")
     options.ner_tagger = CoreNLPParser(url = "http://localhost:9000", tagtype = "ner")
-    options.dep_parser = CoreNLPDependencyParser(url = "http://localhost:9000")
+    # options.dep_parser = CoreNLPDependencyParser(url = "http://localhost:9000")
 
     allowed_features = set([line.strip() for line in open(options.allowed_features_file_path, "r").readlines()])
 
