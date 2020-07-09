@@ -19,7 +19,6 @@ if(__name__ == "__main__"):
     defaults["data_file_path"] = project_root_path / "data/inputs/test_questions.json"
     defaults["features_file_path"] = project_root_path / "data/features/test_questions.features.2.txt"
 
-
     parser = argparse.ArgumentParser()
     parser.add_argument("--data_file_path", type = str, default = defaults["data_file_path"])
     parser.add_argument("--features_file_path", type = str, default = defaults["features_file_path"])

@@ -2,6 +2,7 @@ data/inputs/
 data/features/
 data/models/
 data/predictions
+data/outputs
 data/utils/bert
 data/utils/features/Gensim.model
 java

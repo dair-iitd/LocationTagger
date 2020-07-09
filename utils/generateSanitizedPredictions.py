@@ -10,10 +10,6 @@ from nltk.parse import CoreNLPParser
 from nltk.corpus import stopwords
 from . import common
 
-def read(path):
-    lines = open(path).readlines()
-    return [line.strip() for line in lines]
-
 class LocationProcessor:
     def __init__(self):
         project_root_path = common.getProjectRootPath()

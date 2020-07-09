@@ -1,0 +1,1 @@
+python -m src.main --test --data_file_path "data/features/validation_questions.features.txt" --predictions_file_path "data/predictions/validation_questions.predictions.txt" --"pretrained_model_path data/models/best.weights" --config_file "data/configs/config.jsonnet" --devices 0
