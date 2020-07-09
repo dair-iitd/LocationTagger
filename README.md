@@ -35,6 +35,30 @@ $ pip install -r requirements.txt
 ```
 ---
 
+## Set up
+
+### Stanford Core-NLP-Server
+Please install the stanford core-nlp server library using the following link:
+http://nlp.stanford.edu/software/stanford-corenlp-latest.zip
+The server needs to run (on port 9000) when generating the features or outputs.
+
+Use the following command to run the server.
+
+```bash
+java -mx4g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer -preload tokenize,ssplit,pos,lemma,ner,parse,depparse -status_port 9000 -port 9000 -timeout 15000
+```
+To shut down the server use the following command:
+```bash
+wget "localhost:9000/shutdown?key=`cat /tmp/corenlp.shutdown`" -O -
+```
+
+### BERT
+
+Download [https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-cased-vocab.txt](https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-cased-vocab.txt)
+ and save as "data/utils/bert/vocab.txt".
+
+Download [https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-multilingual-cased.tar.gz](https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-multilingual-cased.tar.gz) and save as "data/utils/bert/bert-base-multilingual-cased.tar.gz".
+
 ## Description
 
 The repository can be used to tag locations in a tourism forum post (example shown below). The repository provides scripts for training/testing the model, changing model configurations, evalaute precision/recall of tagged locations given the gold data, and processing/filtering generic tagged locations like states, countries, acronyms, etc.
